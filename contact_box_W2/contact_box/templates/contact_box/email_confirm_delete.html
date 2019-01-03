@@ -1,0 +1,9 @@
+{% extends 'contact_box/base.html' %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete email "{{ object}}"?</p>
+    <input type="submit" class="btn btn-outline-primary my-2 my-sm-2" value="Confirm">
+</form>
+
+{% endblock %}

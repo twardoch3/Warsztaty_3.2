@@ -1,0 +1,30 @@
+{% extends 'contact_box/base.html' %}
+
+{% block content %}
+    <h3>add/edit address for {{ person |upper }}</h3>
+    <form action="#" method="post">
+    {% if select %}
+    <p>Select address from database or create new one: </p>
+    <button class="new_address">select address from database</button>
+    <p></p><br>
+    {% endif %}
+
+
+        {% if form_a_db %}
+            <div class="address_db">
+                {{ form_a_db.as_p }}
+            </div>
+        {% endif %}
+
+        <div class="address">
+            <p>New address:</p>
+            {{ form_a.as_p }}
+        </div>
+        {% csrf_token %}
+        <input class="btn btn-outline-primary my-2 my-sm-2" type="submit" name="submit" value="submit">
+    </form>
+
+    <br>
+    <br>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'contact_box/base.html' %}
+{% block content %}
+    <h3>SEARCH RESULTS</h3>
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-primary text-white">
+            {% if fn and ln %}
+                <th scope="col">Person fist name contains '{{ fn }}' - last name contains '{{ ln }}' </th>
+            {% elif fn %}
+                <th scope="col">Person first name contains '{{ fn }}'</th>
+            {% elif ln %}
+                <th scope="col">Person last name contains '{{ ln }}'</th>
+            {% else %}
+                <th scope="col">Person</th>
+            {% endif %}
+            <th scope="col">Phone number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Group</th>
+            {% if c %}
+                <th scope="col">City name contains '{{ c }}'</th>
+            {% else %}
+                <th scope="col">City</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for person in searched_persons %}
+            <tr>
+                <td><a href="{% url 'person_details' person.id %}">{{ person }}</a></td>
+                <td>{{ person.phonenumber_set.first }}</td>
+                <td>{{ person.email_set.first }}</td>
+                <td>{{ person.print_person_groups }}</td>
+                <td>{{ person.address.city }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td><h5>No results for your search criteria!</h5></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <br>
+{% endblock %}

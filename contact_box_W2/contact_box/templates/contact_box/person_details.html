@@ -1,0 +1,150 @@
+{% extends 'contact_box/base.html' %}
+
+{% block content %}
+    <h3>PERSON DETAILS</h3>
+    <h2>{{ person }}</h2>
+    {% if person.image %}
+        <img src="{{ person.image.url }}">   {# obrazek #}
+    {% endif %}
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-primary text-white">
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Groups</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ person.first_name }}</td>
+            <td>{{ person.last_name }}</td>
+            <td>{{ person.print_person_groups }}</td>
+            <td>{{ person.description }}</td>
+            <td><a href="{% url 'edit_person' person.id %}">Edit</a></td>
+            <td><a href=" {% url 'delete_person' person.id %}">Delete</a></td>
+        </tr>
+        <tr>
+            <td><a href="{% url 'person_choose_group' person.id %}">
+                <button class="btn btn-outline-primary my-2 my-sm-0">Select Groups</button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Address</h4>
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-info text-white">
+            <th scope="col">City</th>
+            <th scope="col">Street</th>
+            <th scope="col">Building Number</th>
+            <th scope="col">Apartment Number</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Remove</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if address %}
+            <tr>
+                <td>{{ address.city }}</td>
+                <td>{{ address.street }}</td>
+                <td>{{ address.building_number }}</td>
+                {% if not address.apartment_number %}
+                    <td></td>
+                {% else %}
+                    <td>{{ address.apartment_number }}</td>
+                {% endif %}
+                <td><a href="{% url 'person_address' person.id %}">Edit</a></td>
+                <td><a href="{% url 'remove_person_address' person.id %}">Remove</a></td>
+                <td><a href="{% url 'delete_address' address.id %}">Delete</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td><a href="{% url 'person_address' person.id %}">
+                    <button class="btn btn-outline-info my-2 my-sm-0">Empty Table - Add Address</button>
+                </a></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <h4>Phone Numbers</h4>
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-secondary text-white">
+            <th scope="col">Number</th>
+            <th scope="col">Type</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pn in phone_numbers %}
+            <tr>
+                <td>{{ pn.number }} </td>
+                <td>{{ pn.get_type_display }}</td>
+                <td><a href="{% url 'edit_phone_number' person.id pn.id %}">Edit</a></td>
+                <td><a href="{% url 'delete_phone_number' pn.id %}">Delete</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td><a href="{% url 'new_phone_number' person.id %}">
+                    <button class="btn btn-outline-secondary my-2 my-sm-0">Empty Table - Add Phone Number</button>
+                </a></td>
+            </tr>
+        {% endfor %}
+        {% if phone_numbers %}
+            <tr>
+                <td><a href="{% url 'new_phone_number' person.id %}">
+                    <button class="btn btn-outline-secondary my-2 my-sm-0">Add Another One</button>
+                </a></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+
+    <h4>Emails</h4>
+    <table class="table table-hover">
+        <thead>
+        <tr class="bg-success text-white">
+            <th scope="col">Email</th>
+            <th scope="col">Type</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for em in emails %}
+            <tr>
+                <td>{{ em.email }} </td>
+                <td>{{ em.get_type_display }}</td>
+                <td><a href="{% url 'edit_email' person.id em.id %}">Edit</a></td>
+                <td><a href="{% url 'delete_email' em.id %}">Delete</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td><a href="{% url 'new_email' person.id %}">
+                    <button class="btn btn-outline-success my-2 my-sm-0">Empty Table - Add Email</button>
+                </a></td>
+            </tr>
+        {% endfor %}
+        {% if emails %}
+            <tr>
+                <td><a href="{% url 'new_email' person.id %}">
+                    <button class="btn btn-outline-success my-2 my-sm-0">Add Another One</button>
+                </a></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+
+
+
+
+{% endblock %}
